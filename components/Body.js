@@ -1,46 +1,68 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Shimmer from "./shimmer";
 import RestaurantCard from "./restaurantCard";
+import { swiggy_api_URL } from "../utils/constant";
 
 const Body = () => {
   const [resList, setResList] = useState([]);
+  const [filterRes, setFilterRes] = useState([]);
+
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   const fetchData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=23.2599333&lng=77.412615&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-    );
+    const data = await fetch(swiggy_api_URL);
 
     const json = await data.json();
 
-    setResList(
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    const restaurantData =
+      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants;
+
+    setResList(restaurantData);
+    setFilterRes(restaurantData);
+  };
+
+  const handleSearch = () => {
+    const filteredRestaurant = filterRes.filter((res) =>
+      res.info.name.toLowerCase().includes(searchText.toLowerCase())
     );
+    setResList(filteredRestaurant);
+  };
+  const handleFilter = () => {
+    const filteredList = filterRes.filter((res) => res.info.avgRating >= 4);
+    setResList(filteredList);
   };
 
   return resList.length === 0 ? (
     <Shimmer />
   ) : (
-    <div>
+    <div className="Body">
       <div className="filter">
-        <button
-          className="filter-btn"
-          onClick={() => {
-            const filteredList = resList.filter(
-              (res) => res.info.avgRating > 4
-            );
-            setResList(filteredList);
-          }}
-        >
+        <div className="search">
+          <input
+            type="text"
+            className="search-box"
+            value={searchText}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+          />
+          <button onClick={handleSearch}>search</button>
+        </div>
+
+        <button className="filter-btn" onClick={handleFilter}>
           Top Rated Restraunt
         </button>
       </div>
+
       <div className="res-container">
         {resList.map((restaurant) => (
-          <RestaurantCard key={restaurant.info.id} resData={restaurant} />
+          <Link to = {"/restaurants/"+ restaurant?.info?.id} key={restaurant?.info?.id} ><RestaurantCard resData={restaurant} /></Link>
         ))}
       </div>
     </div>
