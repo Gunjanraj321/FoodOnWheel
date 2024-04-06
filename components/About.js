@@ -1,10 +1,21 @@
-const About = () => {
-    return (
-        <div>
-            <h1> About</h1>
-            <h2>Food Adda</h2>
-            <h2>Bhopal</h2>
-        </div>
-    )
+import User from "./User";
+import UserClass from "./UserClass";
+import { Component } from "react";
+
+class About extends Component {
+
+    constructor(props){
+        super(props);
+    }
+
+    render(){
+        return (
+            <div>
+                <h1> About</h1>
+                <UserClass />
+            </div>
+        )
+    }
 }
+
 export default About;
