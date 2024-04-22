@@ -6,7 +6,7 @@ import {
 
 import useRestaurantMenu from "../utils/useRestaurantMenu";
 
-import Shimmer from "./shimmer";
+import ShimmerCard from "./ShimmerCard";
 
 const RestaurantMenu = () => {
   const { id } = useParams();
@@ -17,7 +17,7 @@ const RestaurantMenu = () => {
   );
 
   return resInfo === null ? (
-    <Shimmer />
+    <ShimmerCard />
   ) : (
     <div className="Menu">
       <h1>{resInfo.name}</h1>
@@ -28,8 +28,8 @@ const RestaurantMenu = () => {
       <ul>
         {menuItems.map((item) => {
           return (
-            <li key={item?.card.info.id}>
-              {item?.card.info.name} - {item?.card.info.price / 100 || 100}
+            <li key={item?.card?.info?.id}>
+              {item?.card?.info?.name} - {item?.card?.info?.price / 100 || 100}
             </li>
           );
         })}

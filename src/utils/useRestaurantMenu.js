@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { swiggy_menu_api_URL } from "./constant";
+// import { swiggy_menu_api_URL } from "./constant";
 
 const useRestaurantMenu = (
   id,
@@ -20,14 +20,13 @@ const useRestaurantMenu = (
       const restaurantData = json.data.cards[2].card.card.info || [];
       
       const { itemCards } =
-        json.data.cards[4].groupedCard.cardGroupMap.REGULAR.cards[1].card.card;
+        json?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card;
       console.log("menu opt",itemCards);
       
       setResInfo(restaurantData);
       console.log("res data",restaurantData);
      
       setMenuItems(itemCards);
-      // console.log(itemCards);
 
     } catch (err) {
       setMenuItems([]);

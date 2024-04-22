@@ -1,5 +1,4 @@
-import User from "./User";
-import UserClass from "./UserClass";
+import User from './User'
 import { Component } from "react";
 
 class About extends Component {
@@ -12,7 +11,7 @@ class About extends Component {
         return (
             <div>
                 <h1> About</h1>
-                <UserClass />
+                <User />
             </div>
         )
     }

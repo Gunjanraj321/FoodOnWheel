@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Shimmer from "./shimmer";
-import RestaurantCard from "./restaurantCard";
+import ShimmerCard from "./ShimmerCard";
+import RestaurantCard from "./RestaurantCard";
 import { swiggy_api_URL } from "../utils/constant";
 import useResData from "../utils/useResData";
 import { filterData } from "../utils/Helper";
@@ -23,31 +23,31 @@ const Body =  () => {
   if (!allRestaurants || !FilterRes) return <Shimmer/>;
 
   return  (
-    <div className="Body">
-      <div className="search">
+    <div className="">
+      <div className="search m-4 p-4 rounded-lg">
         <input
           type="text"
-          className="search-box"
+          className="border border-solid border-black rounded-lg"
           value={searchText}
           onChange={(e) => {
             setSearchText(e.target.value);
             searchData(e.target.value, allRestaurants);
           }}
         />
-        <button
+        <button className="px-4 mx-4 bg-green-300 rounded-md"
           onClick={() => {
             searchData(searchText, allRestaurants);
           }}
         >
-          search
+          🔍
         </button>
       </div>
 
       {
         allRestaurants?.length === 0 && FilterRes?.length === 0 ? (
-          <Shimmer />
+          <ShimmerCard />
         ) : (
-          <div className="res-container">
+          <div className="flex flex-wrap">
           {(filteredRestaurants === null ? FilterRes : filteredRestaurants).map(
             (restaurant) => (
               <Link
