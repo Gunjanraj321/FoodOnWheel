@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ShimmerCard from "./ShimmerCard";
-import RestaurantCard from "./RestaurantCard";
 import { swiggy_api_URL } from "../utils/constant";
 import useResData from "../utils/useResData";
 import { filterData } from "../utils/Helper";
+import RestaurantCard ,{ withPromotedLabel } from "./RestaurantCard";
 
 const Body =  () => {
   const [searchText, setSearchText] = useState("");
   const [allRestaurants, FilterRes] = useResData(swiggy_api_URL);
   const [filteredRestaurants, setFilteredRestaurants] = useState(null);
+
+  const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
 
   const searchData = (searchText, restaurants) => {
     if (searchText !== "") {
@@ -20,7 +22,7 @@ const Body =  () => {
     }
   };
 
-  if (!allRestaurants || !FilterRes) return <Shimmer/>;
+  if (!allRestaurants || !FilterRes) return <ShimmerCard/>;
 
   return  (
     <div className="">
@@ -54,7 +56,10 @@ const Body =  () => {
                 to={"/restaurants/" + restaurant?.info?.id}
                 key={restaurant?.info?.id}
               >
-                <RestaurantCard resData={restaurant} />
+                {
+                  restaurant?.info?.promoted ? <RestaurantCardPromoted  resData={restaurant} /> : <RestaurantCard resData={restaurant} />
+                }
+                
               </Link>
             )
           )}

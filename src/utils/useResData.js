@@ -20,6 +20,8 @@ const useResData = (API_URL) => {
         const restaurantData =
           json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
             ?.restaurants;
+        // console.log(json?.data?.cards[1])
+            // console.log(restaurantData);
 
         setFilteredRestaurant(restaurantData);
         setResList(restaurantData)

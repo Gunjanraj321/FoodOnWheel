@@ -1,10 +1,13 @@
 import { LOGO_URL } from "../utils/constant";
-import { useState } from "react";
+import { useState , useContext } from "react";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Header = () => {
   const onlineStatus = useOnlineStatus();
+
+  const {loggedInUser} = useContext(UserContext);
 
   let btnName = "Login";
   const [btnNameReact, setBtnNameReact] = useState("Login");
@@ -28,7 +31,7 @@ const Header = () => {
           </li>
           <li>Cart</li>
           <button
-            className="bg-green-200 hover:bg-green-300 text-black font-bold px-2 mx-2 rounded-lg"
+            className="bg-green-200 hover:bg-green-300 "
             onClick={() => {
               btnNameReact === "Login"
                 ? setBtnNameReact("Logout")
@@ -37,6 +40,7 @@ const Header = () => {
           >
             {btnNameReact}
           </button>
+          <li className="px-4">{loggedInUser}</li>
         </ul>
       </div>
     </div>

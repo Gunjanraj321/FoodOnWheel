@@ -1,30 +1,40 @@
-import { useParams } from "react-router-dom";
-import {
-  MENU_ITEM_TYPE_KEY,
-  swiggy_menu_api_URL,
-} from "../utils/constant";
+import { useParams, useSearchParams } from "react-router-dom";
+import { MENU_ITEM_TYPE_KEY, swiggy_menu_api_URL } from "../utils/constant";
 
 import useRestaurantMenu from "../utils/useRestaurantMenu";
-
+import RestaurantCategory from "./RestaurantCategory";
 import ShimmerCard from "./ShimmerCard";
+import { useState } from "react";
 
 const RestaurantMenu = () => {
   const { id } = useParams();
-
-  const [resInfo, menuItems] = useRestaurantMenu(
+  
+  const [resInfo, menuItems, categories] = useRestaurantMenu(
     id,
-    swiggy_menu_api_URL,
+    swiggy_menu_api_URL
   );
+  const [showIndex, setShowIndex] = useState(null);
 
   return resInfo === null ? (
     <ShimmerCard />
   ) : (
-    <div className="Menu">
-      <h1>{resInfo.name}</h1>
-      <p>
+    <div className="text-center">
+      <h1 className="font-bold my-6 text-2xl">{resInfo.name}</h1>
+      <p className="font-bold my-3 text-lg">
         {resInfo.cuisines.join(", ")} - {resInfo.costForTwoMessage}
       </p>
-      <h2>Menu</h2>
+      {/* Accordion categfories */}
+      {categories.map((category, index) => (
+        // controlled component
+        <RestaurantCategory
+          key={category?.card?.card.title}
+          data={category?.card?.card}
+          showItem={index === showIndex ? true : false}
+          setShowIndex={()=>setShowIndex(index)}
+        />
+      ))}
+
+      {/* <h2>Menu</h2>
       <ul>
         {menuItems.map((item) => {
           return (
@@ -33,7 +43,7 @@ const RestaurantMenu = () => {
             </li>
           );
         })}
-      </ul>
+      </ul> */}
     </div>
   );
 };

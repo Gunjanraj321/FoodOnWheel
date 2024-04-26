@@ -1,8 +1,9 @@
 import { CON_URL } from "../utils/constant";
 
-
 const RestaurantCard = (props) => {
+
   const { resData } = props;
+  // console.log(resData);
   const {
     name,
     avgRating,
@@ -28,6 +29,23 @@ const RestaurantCard = (props) => {
       <h4 className="">{delivaeryTime}</h4>
     </div>
   );
+
 };
+
+//higher order component
+//input - Restaurant card promoted
+
+export const withPromotedLabel = (RestaurantCard) => {
+  return (props) => {
+    return (
+      <div>
+        <label className="absolute text-white bg-black rounded-md m-2 p-2">Promoted</label>
+        <RestaurantCard {...props} />
+      </div>
+    )
+  }
+}
+
+
 
 export default RestaurantCard;
